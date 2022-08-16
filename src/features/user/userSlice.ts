@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import { _getUsers } from "../../_DATA";
+import { _getUsers } from "../../utils/_DATA";
 import { User } from "../../types/User";
 
 export interface UsersState {
