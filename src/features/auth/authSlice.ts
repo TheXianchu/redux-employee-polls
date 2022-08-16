@@ -19,7 +19,15 @@ export const authSlice = createSlice({
     reducers: {
         authenticate: (state) => {
             const { users } = store.getState();
-            state.authenticated = users.users.some((user: User) => user.id === state.userId);
+            const foundUser = users.users.find((user: User) => user.id === state.userId);
+            if (foundUser) {
+                state.authenticated = true;
+                state.userId = foundUser.id;
+            }
+        },
+        logOut: (state) => {
+            state.authenticated = false;
+            state.userId = undefined;
         }
     },
 });
