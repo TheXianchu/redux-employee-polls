@@ -4,10 +4,10 @@ import { loginAuthedUser } from "../utils/api";
 export const SET_AUTHED_USER = "SET_AUTHED_USER";
 export const RECEIVE_AUTHED_USER = "RECEIVE_AUTHED_USER";
 
-export function setAuthedUser(id: string) {
+export function setAuthedUser(authedUser: string) {
   return {
     type: SET_AUTHED_USER,
-    id,
+    authedUser,
   };
 }
 
