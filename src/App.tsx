@@ -8,6 +8,7 @@ import { User } from "./types/User";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import QuestionForm from "./components/QuestionForm";
+import Nav from "./components/Nav";
 
 type InitialDataType = {
   authedUser: User;
@@ -23,7 +24,8 @@ function App(props: any) {
   return (
     <>
       <LoadingBar />
-      <div className="App">
+      <div className="container">
+        {props.loggedIn && <Nav />}
         <h1>Employee Polls</h1>
 
         {props.loading ? null : (
@@ -34,8 +36,14 @@ function App(props: any) {
                 props.loggedIn ? <Navigate to="/dashboard" /> : <Login />
               }
             />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/new" element={<QuestionForm />} />
+            <Route
+              path="/dashboard"
+              element={props.loggedIn ? <Dashboard /> : <Login />}
+            />
+            <Route
+              path="/new"
+              element={props.loggedIn ? <QuestionForm /> : <Login />}
+            />
             <Route
               path="*"
               element={
@@ -50,7 +58,7 @@ function App(props: any) {
 }
 
 const mapStateToProps = ({ authedUser, users }: InitialDataType) => ({
-  loggedIn: !!authedUser.id,
+  loggedIn: Object.keys(authedUser).length !== 0,
   users,
   loading: Object.keys(users).length < 1,
 });
