@@ -128,11 +128,29 @@ let questions = {
   },
 };
 
+let currentAuthedUser = null;
+
 function generateUID() {
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
   );
+}
+
+export function _getAuthedUser() {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(currentAuthedUser), 1000);
+  });
+}
+
+export function _setAuthedUser(authedUser) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      currentAuthedUser = authedUser;
+
+      resolve(currentAuthedUser);
+    }, 1000);
+  });
 }
 
 export function _getUsers() {
