@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { handleInitialData } from "./actions/shared";
@@ -8,7 +8,7 @@ import { User } from "./types/User";
 import Login from "./components/Login";
 
 type InitialDataType = {
-  authenticatedUser: User;
+  authedUser: User;
   users: User[];
 };
 
@@ -16,7 +16,7 @@ function App(props: any) {
   useEffect(() => {
     props.dispatch(handleInitialData());
   }, []);
-
+  console.log(props);
   return (
     <>
       <LoadingBar />
@@ -38,8 +38,8 @@ function App(props: any) {
   );
 }
 
-const mapStateToProps = ({ authenticatedUser, users }: InitialDataType) => ({
-  authenticatedUser,
+const mapStateToProps = ({ authedUser, users }: InitialDataType) => ({
+  loggedIn: !!authedUser.id,
   users,
   loading: Object.keys(users).length < 1,
 });
