@@ -6,18 +6,19 @@ import "./index.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from "redux";
 import reducer from "./reducers";
-import ReactDOM from "react-dom";
 import middleware from "./middleware";
+import { createRoot } from "react-dom/client";
 
+const container = document.getElementById("root")!;
+const root = createRoot(container);
 const store = createStore(reducer, middleware);
 
-ReactDOM.render(
+root.render(
   <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </Provider>,
-  document.getElementById("root")
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

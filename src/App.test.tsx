@@ -6,7 +6,7 @@ import { createStore } from "redux";
 import reducer from "./reducers";
 import middleware from "./middleware";
 
-test("renders learn react link", () => {
+test("renders homepage", () => {
   const store = createStore(reducer, middleware);
 
   const { getByText } = render(
