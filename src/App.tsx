@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
+import { connect } from "react-redux";
+import { handleInitialData } from "./actions/shared";
+import LoadingBar from "react-redux-loading-bar";
+import { User } from "./types/User";
 
-function App() {
+type InitialReturnData = {
+  authedUser: User;
+};
+
+function App(props: any) {
+  useEffect(() => {
+    props.dispatch(handleInitialData());
+  }, []);
+
   return (
-    <div className="App">
-      <h1> Employee Polls </h1>
-    </div>
+    <>
+      <LoadingBar />
+      <div className="App">
+        <h1> Employee Polls </h1>
+      </div>
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = ({ authedUser }: InitialReturnData) => ({
+  loading: authedUser === null,
+});
+
+export default connect(mapStateToProps)(App);
