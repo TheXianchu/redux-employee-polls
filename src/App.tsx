@@ -6,6 +6,8 @@ import LoadingBar from "react-redux-loading-bar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { User } from "./types/User";
 import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import QuestionForm from "./components/QuestionForm";
 
 type InitialDataType = {
   authedUser: User;
@@ -15,8 +17,9 @@ type InitialDataType = {
 function App(props: any) {
   useEffect(() => {
     props.dispatch(handleInitialData());
+    // eslint-disable-next-line
   }, []);
-  console.log(props);
+
   return (
     <>
       <LoadingBar />
@@ -27,6 +30,14 @@ function App(props: any) {
           <Routes>
             <Route
               path="/"
+              element={
+                props.loggedIn ? <Navigate to="/dashboard" /> : <Login />
+              }
+            />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/new" element={<QuestionForm />} />
+            <Route
+              path="*"
               element={
                 props.loggedIn ? <Navigate to="/dashboard" /> : <Login />
               }

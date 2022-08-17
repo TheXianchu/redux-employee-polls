@@ -17,12 +17,9 @@ const Login = (props: any) => {
     undefined
   );
 
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedUser(event.target?.value);
-    },
-    [props]
-  );
+  const handleChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(event.target?.value);
+  }, []);
 
   const handleLogin = useCallback(() => {
     if (selectedUser) {
@@ -32,7 +29,7 @@ const Login = (props: any) => {
     if (props.authedUser) {
       navigate("/dashboard");
     }
-  }, [props, selectedUser]);
+  }, [props, selectedUser, navigate]);
 
   return (
     <div className="form">
