@@ -8,16 +8,22 @@ type LoginScreenType = {
   users: User[];
 };
 
-function Login(props: any) {
+const Login = (props: any) => {
   const navigate = useNavigate();
+
+  const mappableUsers: User[] = Object.values(props.users);
 
   const [selectedUser, setSelectedUser] = useState<string | undefined>(
     undefined
   );
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target?.value);
-  }, []);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      console.log(event.target.value);
+      setSelectedUser(event.target?.value);
+    },
+    [props]
+  );
 
   const handleLogin = useCallback(() => {
     if (selectedUser) {
@@ -27,7 +33,7 @@ function Login(props: any) {
     if (props.authedUser) {
       navigate("/");
     }
-  }, [props.dispatch, props.authedUser]);
+  }, [navigate, props, selectedUser]);
 
   return (
     <div className="form">
@@ -35,22 +41,25 @@ function Login(props: any) {
         <div className="input-container">
           <label>Choose an account</label>
           <select
-            value={selectedUser ? selectedUser : undefined}
+            value={selectedUser ? selectedUser : "-"}
             name={props.name}
             onChange={handleChange}
             disabled={props.disabled}
           >
-            {props.users &&
-              props.users.map((user: User, index: number) => (
-                <option key={index} value={user.id}>
-                  {user.name as string}
+            {mappableUsers &&
+              mappableUsers.map((value: User, index: number) => (
+                <option key={index} value={value.id}>
+                  {value.name}
                 </option>
               ))}
+            <option key={-1} value={"-"}>
+              -
+            </option>
           </select>
           <button
             className="btn"
             onClick={handleLogin}
-            disabled={!selectedUser}
+            disabled={!selectedUser || selectedUser === "-"}
           >
             Submit
           </button>
@@ -58,10 +67,10 @@ function Login(props: any) {
       </form>
     </div>
   );
-}
+};
 
 const mapStateToProps = ({ users }: LoginScreenType) => ({
-  users: Array.from(users),
+  users,
 });
 
 export default connect(mapStateToProps)(Login);

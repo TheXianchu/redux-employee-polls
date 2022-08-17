@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { handleInitialData } from "./actions/shared";
@@ -9,6 +9,7 @@ import Login from "./components/Login";
 
 type InitialDataType = {
   authenticatedUser: User;
+  users: User[];
 };
 
 function App(props: any) {
@@ -20,9 +21,9 @@ function App(props: any) {
     <>
       <LoadingBar />
       <div className="App">
-        <h1> Employee Polls </h1>
+        <h1>Employee Polls</h1>
 
-        {props.loading === true ? null : (
+        {props.loading ? null : (
           <Routes>
             <Route
               path="/"
@@ -37,9 +38,10 @@ function App(props: any) {
   );
 }
 
-const mapStateToProps = ({ authenticatedUser }: InitialDataType) => ({
+const mapStateToProps = ({ authenticatedUser, users }: InitialDataType) => ({
   authenticatedUser,
-  loading: authenticatedUser === null,
+  users,
+  loading: Object.keys(users).length < 1,
 });
 
 export default connect(mapStateToProps)(App);
