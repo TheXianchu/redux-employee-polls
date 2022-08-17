@@ -8,7 +8,10 @@ import { Question } from "../types/Question";
 import { Answer } from "../types/Answer";
 import { User } from "../types/User";
 
-export function getInitialData(): Promise<object> {
+export function getInitialData(): Promise<{
+  users: User[];
+  questions: Question[];
+}> {
   return Promise.all([_getUsers(), _getQuestions()]).then(
     ([users, questions]) => ({
       users,
@@ -21,10 +24,6 @@ export function saveQuestion(info: Question) {
   return _saveQuestion(info);
 }
 
-export function saveQuestionAnswer(info: {
-  authedUser: User;
-  qid: string;
-  answer: Answer;
-}) {
+export function saveQuestionAnswer(info: Answer) {
   return _saveQuestionAnswer(info);
 }

@@ -1,4 +1,7 @@
+import { QuestionOption } from "./QuestionOption";
+
 export type Answer = {
-    questionId: string;
-    answerOption: string;
-}
+  authedUser: string;
+  qid: string;
+  answer: QuestionOption;
+};
