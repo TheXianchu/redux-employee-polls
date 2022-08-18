@@ -31,6 +31,12 @@ describe("validate _saveQuestion", () => {
   });
 });
 
+describe("validate _getAuthedUser", () => {
+  it("will return null when noone is logged in", async () => {
+    await _getAuthedUser().then((response) => expect(response).toBeNull());
+  });
+});
+
 describe("validate _saveQuestionAnswer", () => {
   it("will return contain the correct answer is given on a question", async () => {
     const answer = {
@@ -43,10 +49,16 @@ describe("validate _saveQuestionAnswer", () => {
       expect(response).toBeTruthy();
     });
   });
-});
 
-describe("validate _getAuthedUser", () => {
-  it("will return null when noone is logged in", async () => {
-    await _getAuthedUser().then((response) => expect(response).toBeNull());
+  it("will return an error on invalid data", async () => {
+    const answer = {
+      authedUser: undefined,
+      qid: "8xf0y6ziyjabvozdd253nd",
+      answer: "optionTwo",
+    };
+
+    await _saveQuestionAnswer(answer).catch((error) => {
+      expect(error).toContain("Please provide authedUser, qid, and answer");
+    });
   });
 });
