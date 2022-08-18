@@ -3,8 +3,7 @@ import { Question } from "../types/Question";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { User } from "../types/User";
-import { handleAnswerQuestion } from "../actions/questions";
-import { QuestionOption } from "../types/QuestionOption";
+import { fetchQuestions, handleAnswerQuestion } from "../actions/questions";
 
 type QuestionProps = {
   questions: Question[];
@@ -32,13 +31,15 @@ const QuestionPage = (props: any) => {
 
   const handleClick = useCallback(
     (answer: string) => {
-      props.dispatch(
-        handleAnswerQuestion({
-          authedUser: props.authedUser.id,
-          qid: props.question.id,
-          answer,
-        })
-      );
+      props
+        .dispatch(
+          handleAnswerQuestion({
+            authedUser: props.authedUser.id,
+            qid: props.question.id,
+            answer,
+          })
+        )
+        .then(props.dispatch(fetchQuestions()));
     },
     [props]
   );

@@ -38,6 +38,12 @@ export function getUsers() {
   }));
 }
 
+export function getQuestions() {
+  return Promise.all([_getQuestions()]).then(([questions]) => ({
+    questions,
+  }));
+}
+
 export function saveQuestionAnswer(info: Answer) {
   return _saveQuestionAnswer(info);
 }

@@ -1,4 +1,4 @@
-import { saveQuestion, saveQuestionAnswer } from "../utils/api";
+import { getQuestions, saveQuestion, saveQuestionAnswer } from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 import { Question } from "../types/Question";
 import { Answer } from "../types/Answer";
@@ -46,6 +46,16 @@ export function handleAnswerQuestion(answer: Answer) {
 
     return saveQuestionAnswer(answer)
       .then(() => dispatch(answerQuestion(answer)))
+      .then(() => dispatch(hideLoading()));
+  };
+}
+
+export function fetchQuestions() {
+  return (dispatch: any) => {
+    dispatch(showLoading());
+
+    return getQuestions()
+      .then(({ questions }) => dispatch(receiveQuestions(questions)))
       .then(() => dispatch(hideLoading()));
   };
 }
