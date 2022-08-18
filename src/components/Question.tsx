@@ -1,11 +1,12 @@
 import { connect } from "react-redux";
 import { Question } from "../types/Question";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { User } from "../types/User";
 import { fetchQuestions, handleAnswerQuestion } from "../actions/questions";
 import { fetchUsers } from "../actions/users";
 import { refreshAuthedUser } from "../actions/authedUser";
+import { validateAnsweredQuestion } from "../utils/helpers";
 
 type QuestionProps = {
   questions: Question[];
@@ -41,15 +42,19 @@ const QuestionPage = (props: any) => {
             answer,
           })
         )
-        .then(props.dispatch(fetchQuestions()))
         .then(props.dispatch(fetchUsers()));
 
       setTimeout(() => {
+        props.dispatch(fetchQuestions());
         props.dispatch(refreshAuthedUser());
       }, 1000);
     },
     [props]
   );
+
+  useEffect(() => {
+    props.dispatch(fetchQuestions());
+  }, []);
 
   return (
     <div>
@@ -140,6 +145,8 @@ const mapStateToProps = (
 
   if (newQuestion) {
     const author = newQuestion.author as unknown as string;
+    const questionId = newQuestion.id as unknown as string;
+
     if (author) {
       const questionCreator = Array.from(mappedUsers).find(
         (user) => user.id === author
@@ -149,9 +156,7 @@ const mapStateToProps = (
         authedUser,
         question: newQuestion,
         questionCreator: questionCreator,
-        hasAnsweredQuestion: Array.from(Object.keys(authedUser.answers)).some(
-          (answer: any) => answer === newQuestion.id
-        ),
+        hasAnsweredQuestion: validateAnsweredQuestion(authedUser, questionId),
       };
     }
   }
