@@ -41,12 +41,16 @@ const Nav = (props: any) => {
           {props.loggedIn ? (
             <div className="profile-item"></div>
           ) : (
-            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/">Login</NavLink>
           )}
         </li>
         <li className="nav-li float-right">
           {props.loggedIn && (
-            <NavLink onClick={handleLogout} to="#">
+            <NavLink
+              className={(navData) => (navData.isActive ? "active" : "")}
+              onClick={handleLogout}
+              to="#"
+            >
               Logout
             </NavLink>
           )}

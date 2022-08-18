@@ -44,6 +44,7 @@ function App(props: any) {
               path="/new"
               element={props.loggedIn ? <QuestionForm /> : <Login />}
             />
+
             <Route
               path="*"
               element={

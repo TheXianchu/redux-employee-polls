@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { User } from "../types/User";
 import { handleSetAuthedUser } from "../actions/authedUser";
@@ -35,6 +35,10 @@ const Login = (props: any) => {
       navigate("/dashboard");
     }
   }, [props, selectedUser, navigate]);
+
+  useEffect(() => {
+    navigate("/login");
+  }, []);
 
   return (
     <div className="form">
