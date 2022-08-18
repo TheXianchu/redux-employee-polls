@@ -12,29 +12,50 @@ import middleware from "../middleware";
 import { BrowserRouter as Router } from "react-router-dom";
 import reducers from "../reducers";
 
-test("renders login screen", async () => {
-  const store = createStore(reducers, middleware);
-  const { container } = render(
-    <Provider store={store}>
-      <Router>
-        <Login />
-      </Router>
-    </Provider>
-  );
+describe("renders login screen", () => {
+  it("will enter data in the password box", async () => {
+    const store = createStore(reducers, middleware);
+    const { container } = render(
+      <Provider store={store}>
+        <Router>
+          <Login />
+        </Router>
+      </Provider>
+    );
 
-  fireEvent.change(getByTestId(container, "account-selection"), {
-    target: { value: -1 },
+    fireEvent.change(getByTestId(container, "account-selection"), {
+      target: { value: -1 },
+    });
+
+    fireEvent.change(getByTestId(container, "password"), {
+      target: { value: "asdad" },
+    });
+
+    await waitFor(() => {
+      expect(getByTestId(container, "password")).toHaveValue("asdad");
+    });
   });
 
-  fireEvent.change(getByTestId(container, "password"), {
-    target: { value: "asdad" },
-  });
+  it("keep the submit button disabled when there is no selected user or password", async () => {
+    const store = createStore(reducers, middleware);
+    const { container } = render(
+      <Provider store={store}>
+        <Router>
+          <Login />
+        </Router>
+      </Provider>
+    );
 
-  await waitFor(() => {
-    expect(getByTestId(container, "password")).toHaveValue("asdad");
-  });
+    fireEvent.change(getByTestId(container, "account-selection"), {
+      target: { value: -1 },
+    });
 
-  await waitFor(() => {
-    expect(getByTestId(container, "submit-button")).toBeDisabled();
+    fireEvent.change(getByTestId(container, "password"), {
+      target: { value: "asdad" },
+    });
+
+    await waitFor(() => {
+      expect(getByTestId(container, "submit-button")).toBeDisabled();
+    });
   });
 });

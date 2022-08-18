@@ -1,5 +1,10 @@
 import * as React from "react";
-import { _getAuthedUser, _saveQuestion, _saveQuestionAnswer } from "./_DATA";
+import {
+  _getAuthedUser,
+  _getUsers,
+  _saveQuestion,
+  _saveQuestionAnswer,
+} from "./_DATA";
 
 describe("validate _saveQuestion", () => {
   it("will return contain the correct answer options when a new question is added", async () => {
@@ -34,6 +39,15 @@ describe("validate _saveQuestion", () => {
 describe("validate _getAuthedUser", () => {
   it("will return null when noone is logged in", async () => {
     await _getAuthedUser().then((response) => expect(response).toBeNull());
+  });
+});
+
+describe("validate _getUsers", () => {
+  it("will return an array of users", async () => {
+    await _getUsers().then((users) => {
+      expect(users).toBeDefined();
+      expect(Array.from(Object.values(users))).toHaveLength(4);
+    });
   });
 });
 
