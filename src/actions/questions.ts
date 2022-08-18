@@ -14,15 +14,18 @@ function addQuestion(question: Question) {
   };
 }
 
-export function handleAddQuestion(question: Question) {
-  return async (dispatch: any) => {
-    try {
-      return await saveQuestion(question);
-    } catch (e) {
-      console.warn("Error in handleAddQuestion: ", e);
-      dispatch(addQuestion(question));
-      alert("The was an error adding the question. Try again.");
-    }
+export function handleAddQuestion(
+  optionOneText: string,
+  optionTwoText: string
+) {
+  return (dispatch: any, getState: any) => {
+    const { authedUser } = getState();
+
+    return saveQuestion({
+      optionOneText: optionOneText,
+      optionTwoText: optionTwoText,
+      author: authedUser.id,
+    }).then((question) => dispatch(addQuestion(question)));
   };
 }
 

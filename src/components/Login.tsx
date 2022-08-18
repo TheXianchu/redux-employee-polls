@@ -94,6 +94,7 @@ const Login = (props: any) => {
           style={{ marginTop: 10, marginBottom: 10 }}
           name="password"
           type="password"
+          autoComplete="off"
           autoFocus
           value={password}
           onChange={(event) => {

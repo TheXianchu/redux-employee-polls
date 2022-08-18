@@ -24,7 +24,11 @@ export function getInitialData(): Promise<{
   );
 }
 
-export function saveQuestion(info: Question) {
+export function saveQuestion(info: {
+  optionOneText: string;
+  optionTwoText: string;
+  author: string;
+}) {
   return _saveQuestion(info);
 }
 
