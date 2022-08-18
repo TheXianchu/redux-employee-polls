@@ -7,7 +7,7 @@ type DashboardProps = {
 
 const Dashboard = (props: any) => {
   const mappableQuestions: Question[] = Object.values(props.questions);
-  console.log(mappableQuestions);
+
   return (
     <div>
       <h3 className="center">Your Timeline</h3>

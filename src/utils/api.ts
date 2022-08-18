@@ -13,7 +13,7 @@ import { User } from "../types/User";
 export function getInitialData(): Promise<{
   users: User[];
   questions: Question[];
-  authedUser: string | null;
+  authedUser: User | Record<any, never>;
 }> {
   return Promise.all([_getUsers(), _getQuestions(), _getAuthedUser()]).then(
     ([users, questions, authedUser]) => ({
@@ -32,6 +32,10 @@ export function saveQuestionAnswer(info: Answer) {
   return _saveQuestionAnswer(info);
 }
 
-export function loginAuthedUser(info: string) {
+export function loginAuthedUser(info: User | Record<any, never>) {
   return _setAuthedUser(info);
+}
+
+export function logoutAuthedUser() {
+  return _setAuthedUser({});
 }

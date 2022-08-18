@@ -18,23 +18,34 @@ code {
   padding: 10px;
 }
 
-.nav ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  text-decoration: none;
-}
-
-.nav li:first-child {
-  padding-left: 0;
-}
-
-ul {
-  padding-left: 0;
-}
-
-li {
+.nav-ul {
   list-style-type: none;
-  padding: 10px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.nav-li {
+  float: left;
+}
+
+.nav-li a {
+  display: block;
+  color: #000000;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
+}
+
+.float-right {
+  float: right;
+}
+
+.nav-li a:hover:not(.active) {
+  border-bottom: #c5c5c5 2px solid;
+}
+
+.active {
+  border-bottom: #7d8380 2px solid;
 }

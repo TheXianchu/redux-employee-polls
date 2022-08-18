@@ -24,8 +24,8 @@ function App(props: any) {
   return (
     <>
       <LoadingBar />
+      <Nav />
       <div className="container">
-        {props.loggedIn && <Nav />}
         <h1>Employee Polls</h1>
 
         {props.loading ? null : (

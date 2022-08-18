@@ -13,12 +13,17 @@ const Login = (props: any) => {
   const navigate = useNavigate();
   const mappableUsers: User[] = Object.values(props.users);
 
-  const [selectedUser, setSelectedUser] = useState<string | undefined>(
-    undefined
+  const [selectedUser, setSelectedUser] = useState<User | Record<any, never>>(
+    {}
   );
 
   const handleChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target?.value);
+    const user = mappableUsers.find((user) => user.id === event.target.value);
+    if (user) {
+      setSelectedUser(user);
+    } else {
+      setSelectedUser({});
+    }
   }, []);
 
   const handleLogin = useCallback(() => {
@@ -36,7 +41,7 @@ const Login = (props: any) => {
       <div className="input-container">
         <label>Choose an account</label>
         <select
-          value={selectedUser ? selectedUser : "-"}
+          value={selectedUser.id ? selectedUser.id : "-"}
           name={props.name}
           onChange={handleChange}
           disabled={props.disabled}
@@ -47,15 +52,8 @@ const Login = (props: any) => {
                 {value.name}
               </option>
             ))}
-          <option key={-1} value={"-"}>
-            -
-          </option>
         </select>
-        <button
-          className="btn"
-          onClick={handleLogin}
-          disabled={!selectedUser || selectedUser === "-"}
-        >
+        <button className="btn" onClick={handleLogin} disabled={!selectedUser}>
           Submit
         </button>
       </div>
