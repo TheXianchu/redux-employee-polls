@@ -192,10 +192,22 @@ export function _saveQuestion(question) {
     }
 
     const formattedQuestion = formatQuestion(question);
+    const addedQuestions = users[question.author].questions.concat(
+      formattedQuestion.id
+    );
+
     setTimeout(() => {
       questions = {
         ...questions,
         [formattedQuestion.id]: formattedQuestion,
+      };
+
+      users = {
+        ...users,
+        [question.author]: {
+          ...users[question.author],
+          questions: addedQuestions,
+        },
       };
 
       resolve(formattedQuestion);

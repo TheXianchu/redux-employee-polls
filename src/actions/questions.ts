@@ -21,11 +21,15 @@ export function handleAddQuestion(
   return (dispatch: any, getState: any) => {
     const { authedUser } = getState();
 
+    dispatch(showLoading());
+
     return saveQuestion({
       optionOneText: optionOneText,
       optionTwoText: optionTwoText,
       author: authedUser.id,
-    }).then((question) => dispatch(addQuestion(question)));
+    })
+      .then((question) => dispatch(addQuestion(question)))
+      .then(() => dispatch(hideLoading()));
   };
 }
 

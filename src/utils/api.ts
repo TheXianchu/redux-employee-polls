@@ -32,6 +32,12 @@ export function saveQuestion(info: {
   return _saveQuestion(info);
 }
 
+export function getUsers() {
+  return Promise.all([_getUsers()]).then(([users]) => ({
+    users,
+  }));
+}
+
 export function saveQuestionAnswer(info: Answer) {
   return _saveQuestionAnswer(info);
 }

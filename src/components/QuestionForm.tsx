@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { User } from "../types/User";
 import { FormEvent, useCallback, useState } from "react";
 import { handleAddQuestion } from "../actions/questions";
+import { fetchUsers } from "../actions/users";
 
 type QuestionProps = {
   authedUser: User;
@@ -15,6 +16,7 @@ const QuestionForm = (props: any) => {
     (event: FormEvent) => {
       event.preventDefault();
       props.dispatch(handleAddQuestion(optionOneText, optionTwoText));
+      props.dispatch(fetchUsers());
     },
     [optionOneText, optionTwoText, props]
   );
