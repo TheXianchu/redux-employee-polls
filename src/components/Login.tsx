@@ -73,6 +73,7 @@ const Login = (props: any) => {
         <label>Choose an account</label>
         <br />
         <select
+          data-testid="account-selection"
           style={{ marginTop: 10, width: 150 }}
           value={selectedUser ? selectedUser.id : -1}
           name={props.name}
@@ -94,6 +95,7 @@ const Login = (props: any) => {
           style={{ marginTop: 10, marginBottom: 10 }}
           name="password"
           type="password"
+          data-testid="password"
           autoComplete="off"
           autoFocus
           value={password}
@@ -102,7 +104,11 @@ const Login = (props: any) => {
           }}
         />
         <br />
-        <button className="btn" disabled={!selectedUser || !password}>
+        <button
+          data-testid="submit-button"
+          className="btn"
+          disabled={!selectedUser || !password}
+        >
           Submit
         </button>
       </div>

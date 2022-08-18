@@ -5,32 +5,19 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from "redux";
-import reducer from "./reducers";
 import middleware from "./middleware";
 import { createRoot } from "react-dom/client";
-// @ts-ignore
-import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-
-const persistConfig = {
-  key: "root",
-  storage,
-};
+import reducers from "./reducers";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
-const persistedReducer = persistReducer(persistConfig, reducer);
-const store = createStore(persistedReducer, middleware);
-const persistor = persistStore(store);
+const store = createStore(reducers, middleware);
 
 root.render(
   <Provider store={store}>
     <Router>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
+      <App />
     </Router>
   </Provider>
 );
