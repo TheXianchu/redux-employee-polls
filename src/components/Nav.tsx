@@ -31,17 +31,20 @@ const Nav = (props: any) => {
           {props.loggedIn && (
             <NavLink
               className={(navData) => (navData.isActive ? "active" : "")}
+              to="/leaderboard"
+            >
+              Leaderboard
+            </NavLink>
+          )}
+        </li>
+        <li className="nav-li">
+          {props.loggedIn && (
+            <NavLink
+              className={(navData) => (navData.isActive ? "active" : "")}
               to="/new"
             >
               New Question
             </NavLink>
-          )}
-        </li>
-        <li className="nav-li float-right">
-          {props.loggedIn ? (
-            <div className="profile-item"></div>
-          ) : (
-            <NavLink to="/">Login</NavLink>
           )}
         </li>
         <li className="nav-li float-right">
@@ -53,6 +56,22 @@ const Nav = (props: any) => {
             >
               Logout
             </NavLink>
+          )}
+        </li>
+        <li className="nav-li float-right">
+          {props.loggedIn ? (
+            <div className="profile-item">
+              <img
+                className="profile-icon"
+                src={props.authedUser.avatarURL}
+                alt="profile"
+              />
+              <small>
+                <strong>{props.authedUser.name}</strong>
+              </small>
+            </div>
+          ) : (
+            <NavLink to="/">Login</NavLink>
           )}
         </li>
       </ul>

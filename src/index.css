@@ -49,3 +49,19 @@ code {
 .active {
   border-bottom: #7d8380 2px solid;
 }
+
+.profile-icon {
+  width: 45px;
+  height: 45px;
+}
+
+.profile-item {
+  display: flex;
+  margin-right: 10px;
+  text-align: center;
+}
+
+small {
+  margin-left: 5px;
+  padding-top: 15px;
+}

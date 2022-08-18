@@ -1,4 +1,10 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { connect } from "react-redux";
 import { User } from "../types/User";
 import { handleSetAuthedUser } from "../actions/authedUser";
@@ -28,28 +34,33 @@ const Login = (props: any) => {
     [mappableUsers]
   );
 
-  const handleLogin = useCallback(() => {
-    if (selectedUser) {
-      const userOfChoice = mappableUsers.find(
-        (user: User) => user.id === selectedUser.id
-      );
+  const handleLogin = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
 
-      if (userOfChoice) {
-        if (userOfChoice.password === password) {
-          props.dispatch(handleSetAuthedUser(selectedUser));
-        } else {
-          alert(
-            "The password associated with this account is incorrect, please try again"
-          );
-          setPassword("");
+      if (selectedUser) {
+        const userOfChoice = mappableUsers.find(
+          (user: User) => user.id === selectedUser.id
+        );
+
+        if (userOfChoice) {
+          if (userOfChoice.password === password) {
+            props.dispatch(handleSetAuthedUser(selectedUser));
+          } else {
+            alert(
+              "The password associated with this account is incorrect, please try again"
+            );
+            setPassword("");
+          }
         }
       }
-    }
 
-    if (props.authedUser) {
-      navigate("/dashboard");
-    }
-  }, [props, selectedUser, navigate, mappableUsers]);
+      if (props.authedUser) {
+        navigate("/dashboard");
+      }
+    },
+    [props, password, selectedUser, navigate, mappableUsers]
+  );
 
   useEffect(() => {
     navigate("/");
@@ -57,7 +68,7 @@ const Login = (props: any) => {
   }, []);
 
   return (
-    <div className="form">
+    <form onSubmit={handleLogin} className="form">
       <div className="input-container">
         <label>Choose an account</label>
         <br />
@@ -90,15 +101,11 @@ const Login = (props: any) => {
           }}
         />
         <br />
-        <button
-          className="btn"
-          onClick={handleLogin}
-          disabled={!selectedUser || !password}
-        >
+        <button className="btn" disabled={!selectedUser || !password}>
           Submit
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

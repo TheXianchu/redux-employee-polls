@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import QuestionForm from "./components/QuestionForm";
 import Nav from "./components/Nav";
+import Leaderboard from "./components/Leaderboard";
 
 type InitialDataType = {
   authedUser: User;
@@ -39,6 +40,10 @@ function App(props: any) {
             <Route
               path="/dashboard"
               element={props.loggedIn ? <Dashboard /> : <Login />}
+            />
+            <Route
+              path="/leaderboard"
+              element={props.loggedIn ? <Leaderboard /> : <Login />}
             />
             <Route
               path="/new"
