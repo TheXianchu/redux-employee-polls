@@ -126,3 +126,16 @@ th {
 .btn:focus {
   background-color: #3d3235;
 }
+
+.question-container {
+  border: 1px solid grey;
+  display: flex;
+}
+
+.question-card {
+  border: 1px dotted grey;
+}
+
+.question-card-button {
+
+}

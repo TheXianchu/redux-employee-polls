@@ -42,10 +42,10 @@ const QuestionPage = (props: any) => {
             answer,
           })
         )
+        .then(props.dispatch(fetchQuestions()))
         .then(props.dispatch(fetchUsers()));
 
       setTimeout(() => {
-        props.dispatch(fetchQuestions());
         props.dispatch(refreshAuthedUser());
       }, 1000);
     },
