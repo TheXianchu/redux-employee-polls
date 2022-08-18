@@ -9,7 +9,7 @@ import { refreshAuthedUser } from "../actions/authedUser";
 
 type QuestionProps = {
   questions: Question[];
-  authedUser: Question[];
+  authedUser: User;
   users: User[];
 };
 
@@ -51,21 +51,6 @@ const QuestionPage = (props: any) => {
     [props]
   );
 
-  const hasAnsweredQuestion = useMemo(() => {
-    return (
-      props.question.optionOne.votes.some(
-        (vote: string) => vote !== props.authedUser.id
-      ) ||
-      props.question.optionTwo.votes.some(
-        (vote: string) => vote !== props.authedUser.id
-      )
-    );
-  }, [
-    props.authedUser.id,
-    props.question.optionOne.votes,
-    props.question.optionTwo.votes,
-  ]);
-
   return (
     <div>
       {props.questionCreator && (
@@ -80,7 +65,7 @@ const QuestionPage = (props: any) => {
             />
           </h2>
           <h3 className="center">Would you rather</h3>
-          {!hasAnsweredQuestion ? (
+          {!props.hasAnsweredQuestion ? (
             <>
               <div style={{ float: "left" }}>
                 {props.question.optionOne.text}
@@ -164,6 +149,9 @@ const mapStateToProps = (
         authedUser,
         question: newQuestion,
         questionCreator: questionCreator,
+        hasAnsweredQuestion: Array.from(Object.keys(authedUser.answers)).some(
+          (answer: any) => answer === newQuestion.id
+        ),
       };
     }
   }
