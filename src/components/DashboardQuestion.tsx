@@ -20,7 +20,7 @@ const DashboardQuestion = (props: any) => {
   const navigate = useNavigate();
   const handleOpenQuestion = useCallback(() => {
     navigate(`/questions/${props.id}`);
-  }, []);
+  }, [navigate, props.id]);
 
   return props.question ? (
     <div className="container question-card">

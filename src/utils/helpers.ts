@@ -1,5 +1,6 @@
 import { User } from "../types/User";
 import { Question } from "../types/Question";
+import { QuestionOption } from "../types/QuestionOption";
 
 export function validateAnsweredQuestion(authedUser: User, questionId: string) {
   return Array.from(Object.keys(authedUser.answers)).some(
@@ -35,4 +36,12 @@ export function fetchAnsweredQuestion(authedUser: User, questions: Question[]) {
     (a, b) =>
       (b.timestamp as unknown as number) - (a.timestamp as unknown as number)
   );
+}
+
+export function determineIfYourOwn(
+  authedUser: User,
+  answerOption: QuestionOption
+) {
+  const votes = Object.values(answerOption.votes);
+  return Array.from(votes).some((vote: string) => vote === authedUser.id);
 }

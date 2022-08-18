@@ -6,7 +6,7 @@ import { User } from "../types/User";
 import { fetchQuestions, handleAnswerQuestion } from "../actions/questions";
 import { fetchUsers } from "../actions/users";
 import { refreshAuthedUser } from "../actions/authedUser";
-import { validateAnsweredQuestion } from "../utils/helpers";
+import { determineIfYourOwn, validateAnsweredQuestion } from "../utils/helpers";
 
 type QuestionProps = {
   questions: Question[];
@@ -30,7 +30,7 @@ const QuestionPage = (props: any) => {
     if (!props.question || !props.questionCreator) {
       navigate("*");
     }
-  }, [props.questionCreator, navigate, props.question]);
+  }, [navigate, props.question, props.questionCreator]);
 
   const handleClick = useCallback(
     (answer: string) => {
@@ -54,6 +54,7 @@ const QuestionPage = (props: any) => {
 
   useEffect(() => {
     props.dispatch(fetchQuestions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -98,10 +99,17 @@ const QuestionPage = (props: any) => {
           ) : (
             <>
               <div style={{ float: "left" }}>
-                {props.question.optionOne.text}
+                {determineIfYourOwn(
+                  props.authedUser,
+                  props.question.optionOne
+                ) ? (
+                  <strong>{props.question.optionOne.text} (Your answer)</strong>
+                ) : (
+                  props.question.optionOne.text
+                )}
                 <br />
                 <br />
-                Answers: {props.question.optionOne.votes.length} (
+                Answers: {props.question.optionOne.votes.length}(
                 {Math.round(
                   (props.question.optionOne.votes.length /
                     (props.question.optionOne.votes.length +
@@ -111,10 +119,17 @@ const QuestionPage = (props: any) => {
                 %)
               </div>
               <div style={{ float: "right" }}>
-                {props.question.optionTwo.text}
+                {determineIfYourOwn(
+                  props.authedUser,
+                  props.question.optionTwo
+                ) ? (
+                  <strong>{props.question.optionTwo.text} (Your answer)</strong>
+                ) : (
+                  props.question.optionTwo.text
+                )}
                 <br />
                 <br />
-                Answers: {props.question.optionTwo.votes.length} (
+                Answers: {props.question.optionTwo.votes.length}(
                 {Math.round(
                   (props.question.optionTwo.votes.length /
                     (props.question.optionOne.votes.length +
