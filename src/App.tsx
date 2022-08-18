@@ -7,9 +7,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { User } from "./types/User";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import QuestionForm from "./components/QuestionForm";
+import QuestionForm from "./components/questions/QuestionForm";
 import Nav from "./components/Nav";
 import Leaderboard from "./components/Leaderboard";
+import Question from "./components/questions/Question";
+import PageNotFound from "./components/PageNotFound";
 
 type InitialDataType = {
   authedUser: User;
@@ -51,11 +53,11 @@ function App(props: any) {
             />
 
             <Route
-              path="*"
-              element={
-                props.loggedIn ? <Navigate to="/dashboard" /> : <Login />
-              }
+              path="/questions/:id"
+              element={props.loggedIn ? <Question /> : <Login />}
             />
+
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         )}
       </div>
