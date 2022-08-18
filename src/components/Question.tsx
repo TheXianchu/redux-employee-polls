@@ -1,9 +1,11 @@
 import { connect } from "react-redux";
 import { Question } from "../types/Question";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { User } from "../types/User";
 import { fetchQuestions, handleAnswerQuestion } from "../actions/questions";
+import { fetchUsers } from "../actions/users";
+import { refreshAuthedUser } from "../actions/authedUser";
 
 type QuestionProps = {
   questions: Question[];
@@ -39,10 +41,30 @@ const QuestionPage = (props: any) => {
             answer,
           })
         )
-        .then(props.dispatch(fetchQuestions()));
+        .then(props.dispatch(fetchQuestions()))
+        .then(props.dispatch(fetchUsers()));
+
+      setTimeout(() => {
+        props.dispatch(refreshAuthedUser());
+      }, 1000);
     },
     [props]
   );
+
+  const hasAnsweredQuestion = useMemo(() => {
+    return (
+      props.question.optionOne.votes.some(
+        (vote: string) => vote !== props.authedUser.id
+      ) ||
+      props.question.optionTwo.votes.some(
+        (vote: string) => vote !== props.authedUser.id
+      )
+    );
+  }, [
+    props.authedUser.id,
+    props.question.optionOne.votes,
+    props.question.optionTwo.votes,
+  ]);
 
   return (
     <div>
@@ -58,22 +80,61 @@ const QuestionPage = (props: any) => {
             />
           </h2>
           <h3 className="center">Would you rather</h3>
-          <div style={{ float: "left" }}>
-            {props.question.optionOne.text}
-            <br />
-            <br />
-            <button className="btn" onClick={() => handleClick("optionOne")}>
-              Click
-            </button>
-          </div>
-          <div style={{ float: "right" }}>
-            {props.question.optionTwo.text}
-            <br />
-            <br />
-            <button className="btn" onClick={() => handleClick("optionTwo")}>
-              Click
-            </button>
-          </div>
+          {!hasAnsweredQuestion ? (
+            <>
+              <div style={{ float: "left" }}>
+                {props.question.optionOne.text}
+                <br />
+                <br />
+                <button
+                  className="btn"
+                  onClick={() => handleClick("optionOne")}
+                >
+                  Click
+                </button>
+              </div>
+              <div style={{ float: "right" }}>
+                {props.question.optionTwo.text}
+                <br />
+                <br />
+                <button
+                  className="btn"
+                  onClick={() => handleClick("optionTwo")}
+                >
+                  Click
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ float: "left" }}>
+                {props.question.optionOne.text}
+                <br />
+                <br />
+                Answers: {props.question.optionOne.votes.length} (
+                {Math.round(
+                  (props.question.optionOne.votes.length /
+                    (props.question.optionOne.votes.length +
+                      props.question.optionTwo.votes.length)) *
+                    100
+                )}
+                %)
+              </div>
+              <div style={{ float: "right" }}>
+                {props.question.optionTwo.text}
+                <br />
+                <br />
+                Answers: {props.question.optionTwo.votes.length} (
+                {Math.round(
+                  (props.question.optionTwo.votes.length /
+                    (props.question.optionOne.votes.length +
+                      props.question.optionTwo.votes.length)) *
+                    100
+                )}
+                %)
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
