@@ -25,16 +25,14 @@ test("renders homepage", async () => {
   global.alert = jest.fn();
 
   fireEvent.change(getByTestId(container, "account-selection"), {
-    target: { value: 2 },
+    target: { value: -1 },
   });
 
   fireEvent.change(getByTestId(container, "password"), {
     target: { value: "asdad" },
   });
 
-  fireEvent.click(getByTestId(container, "submit-button"));
-
   await waitFor(() => {
-    expect(global.alert).toHaveBeenCalledTimes(1);
+    expect(getByTestId(container, "submit-button")).toBeDisabled();
   });
 });
