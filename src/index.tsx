@@ -8,15 +8,29 @@ import { createStore } from "redux";
 import reducer from "./reducers";
 import middleware from "./middleware";
 import { createRoot } from "react-dom/client";
+// @ts-ignore
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
-const store = createStore(reducer, middleware);
+
+const persistedReducer = persistReducer(persistConfig, reducer);
+const store = createStore(persistedReducer, middleware);
+const persistor = persistStore(store);
 
 root.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Router>
   </Provider>
 );

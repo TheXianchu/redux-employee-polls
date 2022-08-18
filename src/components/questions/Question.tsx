@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { Question } from "../../types/Question";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 type QuestionProps = {
   questions: Question[];
@@ -17,7 +18,13 @@ const withRouter = (Component: any) => {
 };
 
 const QuestionPage = (props: any) => {
-  const mappableQuestions: Question[] = Object.values(props.questions);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!props.question) {
+      navigate("*");
+    }
+  }, []);
 
   return (
     <div>
@@ -33,14 +40,14 @@ const mapStateToProps = (
 ) => {
   const { id } = props.router.params;
   const mappedQuestions: Question[] = Object.values(questions);
-  const newQuestion = mappedQuestions.find(
-    // @ts-ignore
+
+  const newQuestion = Array.from(mappedQuestions).find(
     (question: Question) => question.id === id
   );
 
   return {
     authedUser,
-    newQuestion,
+    question: newQuestion,
   };
 };
 
