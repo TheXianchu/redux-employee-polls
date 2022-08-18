@@ -3,6 +3,7 @@ import { User } from "../types/User";
 import { FormEvent, useCallback, useState } from "react";
 import { handleAddQuestion } from "../actions/questions";
 import { fetchUsers } from "../actions/users";
+import { refreshAuthedUser } from "../actions/authedUser";
 
 type QuestionProps = {
   authedUser: User;
@@ -15,8 +16,13 @@ const QuestionForm = (props: any) => {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      props.dispatch(handleAddQuestion(optionOneText, optionTwoText));
-      props.dispatch(fetchUsers());
+      props
+        .dispatch(handleAddQuestion(optionOneText, optionTwoText))
+        .then(props.dispatch(fetchUsers()));
+
+      setTimeout(() => {
+        props.dispatch(refreshAuthedUser());
+      }, 1000);
     },
     [optionOneText, optionTwoText, props]
   );

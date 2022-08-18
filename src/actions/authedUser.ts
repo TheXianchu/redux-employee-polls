@@ -22,6 +22,23 @@ export function handleSetAuthedUser(authedUser: User | Record<any, never>) {
   };
 }
 
+export function refreshAuthedUser() {
+  return (dispatch: any, getState: any) => {
+    const { users, authedUser }: { users: User[]; authedUser: User } =
+      getState();
+
+    const updatedUser = Object.values(users).find(
+      (user: User) => user.id === authedUser.id
+    );
+
+    if (updatedUser) {
+      return loginAuthedUser(updatedUser).then((authedUser) =>
+        dispatch(setAuthedUser(authedUser))
+      );
+    }
+  };
+}
+
 export function handleUnsetAuthedUser() {
   return (dispatch: any) => {
     dispatch(showLoading());
