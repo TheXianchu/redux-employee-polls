@@ -1,13 +1,12 @@
 import { connect } from "react-redux";
 import { User } from "../types/User";
+import { orderedLeaderboards } from "../utils/helpers";
 
 type LeaderboardProps = {
   users: User[];
 };
 
 const Leaderboard = (props: any) => {
-  const mappableUsers: User[] = Object.values(props.users);
-
   return (
     <div>
       <table>
@@ -19,8 +18,8 @@ const Leaderboard = (props: any) => {
           </tr>
         </thead>
         <tbody>
-          {mappableUsers &&
-            mappableUsers.map((user, index) => (
+          {props.users &&
+            props.users.map((user: User, index: number) => (
               <tr key={index}>
                 <td style={{ display: "flex" }}>
                   <img
@@ -47,7 +46,7 @@ const Leaderboard = (props: any) => {
 };
 
 const mapStateToProps = ({ users }: LeaderboardProps) => ({
-  users,
+  users: orderedLeaderboards(users),
 });
 
 export default connect(mapStateToProps)(Leaderboard);

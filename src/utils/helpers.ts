@@ -45,3 +45,12 @@ export function determineIfYourOwn(
   const votes = Object.values(answerOption.votes);
   return Array.from(votes).some((vote: string) => vote === authedUser.id);
 }
+
+export function orderedLeaderboards(users: User[]) {
+  const mappableUsers: User[] = Object.values(users);
+  return Array.from(mappableUsers).sort(
+    (a, b) =>
+      b.questions.length - a.questions.length ||
+      b.answers.length - a.answers.length
+  );
+}
