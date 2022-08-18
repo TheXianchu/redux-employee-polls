@@ -12,7 +12,7 @@ import middleware from "../middleware";
 import { BrowserRouter as Router } from "react-router-dom";
 import reducers from "../reducers";
 
-test("renders homepage", async () => {
+test("renders login screen", async () => {
   const store = createStore(reducers, middleware);
   const { container } = render(
     <Provider store={store}>
@@ -22,14 +22,16 @@ test("renders homepage", async () => {
     </Provider>
   );
 
-  global.alert = jest.fn();
-
   fireEvent.change(getByTestId(container, "account-selection"), {
     target: { value: -1 },
   });
 
   fireEvent.change(getByTestId(container, "password"), {
     target: { value: "asdad" },
+  });
+
+  await waitFor(() => {
+    expect(getByTestId(container, "password")).toHaveValue("asdad");
   });
 
   await waitFor(() => {
