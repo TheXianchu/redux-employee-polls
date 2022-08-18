@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import { User } from "../../types/User";
+import { User } from "../types/User";
 import { FormEvent, useCallback, useState } from "react";
-import { handleAddQuestion } from "../../actions/questions";
-import { fetchUsers } from "../../actions/users";
-import { refreshAuthedUser } from "../../actions/authedUser";
+import { handleAddQuestion } from "../actions/questions";
+import { fetchUsers } from "../actions/users";
+import { refreshAuthedUser } from "../actions/authedUser";
 import { useNavigate } from "react-router-dom";
 
 type QuestionProps = {

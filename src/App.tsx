@@ -7,10 +7,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { User } from "./types/User";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import QuestionForm from "./components/questions/QuestionForm";
+import QuestionForm from "./components/QuestionForm";
 import Nav from "./components/Nav";
 import Leaderboard from "./components/Leaderboard";
-import Question from "./components/questions/Question";
+import Question from "./components/Question";
 import PageNotFound from "./components/PageNotFound";
 
 type InitialDataType = {

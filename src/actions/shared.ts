@@ -1,5 +1,5 @@
 import { getInitialData } from "../utils/api";
-import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { showLoading, resetLoading } from "react-redux-loading-bar";
 import { Dispatch } from "react";
 import { receiveQuestions } from "./questions";
 import { receiveUsers } from "./users";
@@ -12,7 +12,7 @@ export function handleInitialData() {
       dispatch(receiveUsers(users));
       dispatch(receiveQuestions(questions));
       dispatch(receiveAuthedUser(authedUser));
-      dispatch(hideLoading());
+      dispatch(resetLoading());
     });
   };
 }
