@@ -109,7 +109,7 @@ const QuestionPage = (props: any) => {
                 )}
                 <br />
                 <br />
-                Answers: {props.question.optionOne.votes.length}(
+                Answers: {props.question.optionOne.votes.length} (
                 {Math.round(
                   (props.question.optionOne.votes.length /
                     (props.question.optionOne.votes.length +
@@ -129,7 +129,7 @@ const QuestionPage = (props: any) => {
                 )}
                 <br />
                 <br />
-                Answers: {props.question.optionTwo.votes.length}(
+                Answers: {props.question.optionTwo.votes.length} (
                 {Math.round(
                   (props.question.optionTwo.votes.length /
                     (props.question.optionOne.votes.length +
