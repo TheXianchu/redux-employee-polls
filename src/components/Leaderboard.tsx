@@ -20,11 +20,24 @@ const Leaderboard = (props: any) => {
         </thead>
         <tbody>
           {mappableUsers &&
-            mappableUsers.map((user) => (
-              <tr>
-                <td>{user.name}</td>
-                <td>{user.answers.length}</td>
-                <td>{user.questions.length}</td>
+            mappableUsers.map((user, index) => (
+              <tr key={index}>
+                <td style={{ display: "flex" }}>
+                  <img
+                    className="profile-icon"
+                    src={user.avatarURL}
+                    alt="profile"
+                  />
+                  <div style={{ marginTop: 5 }}>
+                    <small>
+                      <strong>{user.name}</strong>
+                    </small>
+                    <br />
+                    <small>{user.id}</small>
+                  </div>
+                </td>
+                <td>{user.answers ? Object.keys(user.answers).length : 0}</td>
+                <td>{user.questions ? user.questions.length : 0}</td>
               </tr>
             ))}
         </tbody>
