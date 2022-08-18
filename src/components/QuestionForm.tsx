@@ -32,7 +32,7 @@ const QuestionForm = (props: any) => {
         navigate("/dashboard");
       }, 1000);
     },
-    [optionOneText, optionTwoText, props]
+    [navigate, optionOneText, optionTwoText, props]
   );
 
   return (

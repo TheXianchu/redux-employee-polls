@@ -3,6 +3,7 @@ import {
   ANSWER_QUESTION,
   RECEIVE_QUESTIONS,
 } from "../actions/questions";
+import { User } from "../types/User";
 
 export default function questions(state = {}, action: any) {
   switch (action.type) {
@@ -12,16 +13,22 @@ export default function questions(state = {}, action: any) {
         ...action.questions,
       };
     case ANSWER_QUESTION:
-      const { question } = action;
-
-      const newQuestion = {
-        question,
-        ...action.answer,
-      };
+      const {
+        qid,
+        answer,
+        authedUser,
+      }: { qid: string; answer: string; authedUser: User } = action.answer;
+      // @ts-ignore
+      const newAnswer = state[qid][answer];
+      newAnswer.votes.concat(authedUser);
 
       return {
         ...state,
-        [action.qid]: newQuestion,
+        [qid]: {
+          // @ts-ignore
+          ...state[qid],
+          [answer]: newAnswer,
+        },
       };
     case ADD_QUESTION:
       return {

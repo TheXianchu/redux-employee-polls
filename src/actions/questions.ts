@@ -45,7 +45,7 @@ export function handleAnswerQuestion(answer: Answer) {
     dispatch(showLoading());
 
     return saveQuestionAnswer(answer)
-      .then((tweet) => dispatch(answerQuestion(tweet)))
+      .then(() => dispatch(answerQuestion(answer)))
       .then(() => dispatch(hideLoading()));
   };
 }

@@ -1,8 +1,10 @@
 import { connect } from "react-redux";
 import { Question } from "../types/Question";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { User } from "../types/User";
+import { handleAnswerQuestion } from "../actions/questions";
+import { QuestionOption } from "../types/QuestionOption";
 
 type QuestionProps = {
   questions: Question[];
@@ -26,7 +28,20 @@ const QuestionPage = (props: any) => {
     if (!props.question || !props.questionCreator) {
       navigate("*");
     }
-  }, []);
+  }, [props.questionCreator, navigate, props.question]);
+
+  const handleClick = useCallback(
+    (answer: string) => {
+      props.dispatch(
+        handleAnswerQuestion({
+          authedUser: props.authedUser.id,
+          qid: props.question.id,
+          answer,
+        })
+      );
+    },
+    [props]
+  );
 
   return (
     <div>
@@ -34,10 +49,30 @@ const QuestionPage = (props: any) => {
         <>
           <h2 className="center">
             Poll by {props.questionCreator && props.questionCreator.name}
+            <br />
+            <img
+              className="question-profile-icon"
+              src={props.questionCreator.avatarURL}
+              alt="avatar"
+            />
           </h2>
           <h3 className="center">Would you rather</h3>
-          <div style={{ float: "left" }}>{props.question.optionOne.text}</div>
-          <div style={{ float: "right" }}>{props.question.optionTwo.text}</div>
+          <div style={{ float: "left" }}>
+            {props.question.optionOne.text}
+            <br />
+            <br />
+            <button className="btn" onClick={() => handleClick("optionOne")}>
+              Click
+            </button>
+          </div>
+          <div style={{ float: "right" }}>
+            {props.question.optionTwo.text}
+            <br />
+            <br />
+            <button className="btn" onClick={() => handleClick("optionTwo")}>
+              Click
+            </button>
+          </div>
         </>
       )}
     </div>
