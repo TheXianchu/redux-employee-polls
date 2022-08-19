@@ -41,7 +41,7 @@ const Nav = (props: any) => {
           {props.loggedIn && (
             <NavLink
               className={(navData) => (navData.isActive ? "active" : "")}
-              to="/new"
+              to="/add"
             >
               New Question
             </NavLink>

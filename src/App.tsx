@@ -69,7 +69,7 @@ function App(props: any) {
               }
             />
             <Route
-              path="/new"
+              path="/add"
               element={
                 <RequireAuth>
                   <QuestionForm />
