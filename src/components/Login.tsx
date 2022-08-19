@@ -1,14 +1,8 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { User } from "../types/User";
 import { handleSetAuthedUser } from "../actions/authedUser";
-import { useNavigate } from "react-router-dom";
+import { Location, useLocation, useNavigate } from "react-router-dom";
 
 type LoginScreenType = {
   users: User[];
@@ -20,8 +14,9 @@ const Login = (props: any) => {
   const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
-  const mappableUsers: User[] = Object.values(props.users);
+  const { state }: { state: any } = useLocation();
 
+  const mappableUsers: User[] = Object.values(props.users);
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
       const user = mappableUsers.find((user) => user.id === event.target.value);
@@ -45,7 +40,9 @@ const Login = (props: any) => {
 
         if (userOfChoice) {
           if (userOfChoice.password === password) {
-            props.dispatch(handleSetAuthedUser(selectedUser));
+            props.dispatch(handleSetAuthedUser(selectedUser)).then(() => {
+              navigate(state.path || "/dashboard");
+            });
           } else {
             alert(
               "The password associated with this account is incorrect, please try again"
@@ -54,19 +51,9 @@ const Login = (props: any) => {
           }
         }
       }
-
-      if (props.authedUser) {
-        navigate("/dashboard");
-      }
     },
     [props, password, selectedUser, navigate, mappableUsers]
   );
-
-  useEffect(() => {
-    navigate("/");
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <form onSubmit={handleLogin} className="form">
       <div className="input-container">

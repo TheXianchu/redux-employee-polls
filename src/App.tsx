@@ -1,22 +1,34 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { handleInitialData } from "./actions/shared";
 import LoadingBar from "react-redux-loading-bar";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { User } from "./types/User";
-import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import QuestionForm from "./components/QuestionForm";
 import Nav from "./components/Nav";
 import Leaderboard from "./components/Leaderboard";
 import Question from "./components/Question";
 import PageNotFound from "./components/PageNotFound";
+import { useAuth } from "./utils/useAuth";
+import Login from "./components/Login";
 
 type InitialDataType = {
   authedUser: User;
   users: User[];
 };
+
+function RequireAuth({ children }: { children: ReactElement }) {
+  const loggedIn = useAuth();
+  const location = useLocation();
+
+  return loggedIn ? (
+    children
+  ) : (
+    <Navigate to="/login" replace state={{ path: location.pathname }} />
+  );
+}
 
 function App(props: any) {
   useEffect(() => {
@@ -36,26 +48,46 @@ function App(props: any) {
             <Route
               path="/"
               element={
-                props.loggedIn ? <Navigate to="/dashboard" /> : <Login />
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
               }
             />
             <Route
               path="/dashboard"
-              element={props.loggedIn ? <Dashboard /> : <Login />}
+              element={
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
+              }
             />
             <Route
               path="/leaderboard"
-              element={props.loggedIn ? <Leaderboard /> : <Login />}
+              element={
+                <RequireAuth>
+                  <Leaderboard />
+                </RequireAuth>
+              }
             />
             <Route
               path="/new"
-              element={props.loggedIn ? <QuestionForm /> : <Login />}
+              element={
+                <RequireAuth>
+                  <QuestionForm />
+                </RequireAuth>
+              }
             />
 
             <Route
               path="/questions/:id"
-              element={props.loggedIn ? <Question /> : <Login />}
+              element={
+                <RequireAuth>
+                  <Question />
+                </RequireAuth>
+              }
             />
+
+            <Route path="/login" element={<Login />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

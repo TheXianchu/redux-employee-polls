@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useLocation } from "react-router-dom";
 import { User } from "../types/User";
 import { connect } from "react-redux";
-import { useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { handleUnsetAuthedUser } from "../actions/authedUser";
 
 type NavProps = {
