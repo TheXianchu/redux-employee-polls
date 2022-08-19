@@ -42,7 +42,6 @@ function App(props: any) {
       <Nav />
       <div className="container">
         <h1>Employee Polls</h1>
-
         {props.loading ? null : (
           <Routes>
             <Route
@@ -89,6 +88,7 @@ function App(props: any) {
 
             <Route path="/login" element={<Login />} />
 
+            <Route path="not-found" element={<PageNotFound />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         )}

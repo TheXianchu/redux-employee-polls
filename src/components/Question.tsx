@@ -28,7 +28,7 @@ const QuestionPage = (props: any) => {
 
   useEffect(() => {
     if (!props.question || !props.questionCreator) {
-      navigate("*");
+      navigate("/not-found");
     }
   }, [navigate, props.question, props.questionCreator]);
 
@@ -175,6 +175,8 @@ const mapStateToProps = (
       };
     }
   }
+
+  return {};
 };
 
 export default withRouter(connect(mapStateToProps)(QuestionPage));
