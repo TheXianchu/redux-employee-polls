@@ -50,7 +50,7 @@ export function orderedLeaderboards(users: User[]) {
   const mappableUsers: User[] = Object.values(users);
   return Array.from(mappableUsers).sort(
     (a, b) =>
-      b.questions.length - a.questions.length ||
-      b.answers.length - a.answers.length
+      Object.keys(b.answers).length - Object.keys(a.answers).length ||
+      b.questions.length - a.questions.length
   );
 }
