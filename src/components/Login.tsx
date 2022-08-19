@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { User } from "../types/User";
 import { handleSetAuthedUser } from "../actions/authedUser";
-import { Location, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type LoginScreenType = {
   users: User[];
@@ -52,7 +52,7 @@ const Login = (props: any) => {
         }
       }
     },
-    [props, password, selectedUser, navigate, mappableUsers]
+    [props, password, selectedUser, navigate, mappableUsers, state.path]
   );
   return (
     <form onSubmit={handleLogin} className="form">

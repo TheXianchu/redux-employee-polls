@@ -1,7 +1,7 @@
-import { Navigate, NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { User } from "../types/User";
 import { connect } from "react-redux";
-import { ReactElement, useCallback } from "react";
+import { useCallback } from "react";
 import { handleUnsetAuthedUser } from "../actions/authedUser";
 
 type NavProps = {
@@ -52,7 +52,7 @@ const Nav = (props: any) => {
             <NavLink
               className={(navData) => (navData.isActive ? "active" : "")}
               onClick={handleLogout}
-              to=""
+              to=" "
             >
               Logout
             </NavLink>
